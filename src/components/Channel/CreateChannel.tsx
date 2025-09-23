@@ -1,10 +1,14 @@
 import PlusIcon from "../../assets/PlusIcon"
 import Button from "../Common/Button"
 
-const CreateChannel = () => {
+type CreateChannelProps = {
+    onClick: () => void
+}
+
+const CreateChannel = ({ onClick }: CreateChannelProps) => {
     return (
         <div className="relative group">
-            <Button className="bg-accent p-2 rounded-full">
+            <Button onClick={onClick} className="bg-accent p-2 rounded-full">
                 <PlusIcon />
             </Button>
             {/*  Tooltip */}
