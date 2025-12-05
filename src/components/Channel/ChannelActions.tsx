@@ -2,6 +2,7 @@ import { useRef } from "react"
 import Modal from "../Common/Modal"
 import Search from "../Common/Search"
 import CreateChannel from "./CreateChannel"
+import CreateChannelModal from "./CreateChannelModal"
 
 const ChannelActions = () => {
     const dialogRef = useRef<HTMLDialogElement | null>(null)
@@ -16,7 +17,9 @@ const ChannelActions = () => {
                 <Search />
                 <CreateChannel onClick={openModal} />
             </div>
-            <Modal dialogRef={dialogRef}>test</Modal>
+            <Modal dialogRef={dialogRef}>
+                <CreateChannelModal />
+            </Modal>
         </>
     )
 }
