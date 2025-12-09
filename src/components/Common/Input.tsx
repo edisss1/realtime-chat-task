@@ -8,6 +8,7 @@ type InputProps = {
     minWidth?: "min-w-[200px]" | "min-w-[300px]"
     maxWidth?: "max-w-[200px]" | "max-w-[300px]"
     className?: string
+    icon?: React.ReactNode
 }
 
 const Input = ({
@@ -19,10 +20,11 @@ const Input = ({
     placeholder,
     minWidth = "min-w-[300px]",
     maxWidth = "max-w-[300px]",
-    className = `border-2 border-text p-2 rounded-lg ${minWidth} ${maxWidth}`
+    className = `border-2 border-text p-2 rounded-lg ${minWidth} ${maxWidth}`,
+    icon
 }: InputProps) => {
     return (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 relative">
             {label && <label htmlFor={id}>{label}</label>}
             <input
                 className={className}
@@ -32,6 +34,12 @@ const Input = ({
                 onChange={onChange}
                 placeholder={placeholder}
             />
+
+            {icon && (
+                <div className="absolute right-2 top-1/2 translate-y-1">
+                    {icon}
+                </div>
+            )}
         </div>
     )
 }
