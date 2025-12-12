@@ -2,14 +2,29 @@ import { Link } from "react-router-dom"
 import Button from "../components/Common/Button"
 import Input from "../components/Common/Input"
 import { useState } from "react"
+import EyeClosedIcon from "../assets/EyeClosedIcon"
+import EyeOpenedIcon from "../assets/EyeOpenedIcon"
+import { useAuthContext } from "../context/AuthContext"
+import { login } from "../services/login"
 
 const Login = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [isShowingPassword, setIsShowingPassword] = useState(false)
+    const { setUser } = useAuthContext()
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault()
+        const user = await login(email, password)
+        setUser(user)
+    }
 
     return (
         <div className="w-screen h-screen flex flex-col gap-6 items-center justify-center">
-            <form className="flex flex-col items-center gap-5">
+            <form
+                onSubmit={handleSubmit}
+                className="flex flex-col items-center gap-5"
+            >
                 <h1 className="text-3xl font-bold">Welcome back</h1>
 
                 <Input
@@ -20,11 +35,29 @@ const Login = () => {
                     minWidth={"min-w-[300px]"}
                 />
                 <Input
-                    onChange={(e) => setPassword(e.target.value)}
                     value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     label="Password"
                     placeholder="Enter your password"
                     minWidth={"min-w-[300px]"}
+                    type={isShowingPassword ? "text" : "password"}
+                    icon={
+                        isShowingPassword ? (
+                            <Button
+                                type="button"
+                                onClick={() => setIsShowingPassword(false)}
+                            >
+                                <EyeClosedIcon />
+                            </Button>
+                        ) : (
+                            <Button
+                                type="button"
+                                onClick={() => setIsShowingPassword(true)}
+                            >
+                                <EyeOpenedIcon />
+                            </Button>
+                        )
+                    }
                 />
                 <Button
                     type="submit"
