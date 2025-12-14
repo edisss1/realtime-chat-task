@@ -1,20 +1,33 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Button from "../components/Common/Button"
 import Input from "../components/Common/Input"
 import { useState } from "react"
 import EyeClosedIcon from "../assets/EyeClosedIcon"
 import EyeOpenedIcon from "../assets/EyeOpenedIcon"
 import { signUp } from "../services/signUp"
+import { useAuthContext } from "../context/AuthContext"
 
 const SignUp = () => {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [isShowingPassword, setIsShowingPassword] = useState(false)
+    const { setUser } = useAuthContext()
+    const navigate = useNavigate()
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        signUp(name, email, password)
+        const user = await signUp(name, email, password)
+
+        if (user) {
+            setUser(user)
+            navigate("/chat")
+        }
+
+        // clearing the form after signing up
+        setName("")
+        setEmail("")
+        setPassword("")
     }
 
     return (

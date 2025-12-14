@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Button from "../components/Common/Button"
 import Input from "../components/Common/Input"
 import { useState } from "react"
@@ -12,11 +12,20 @@ const Login = () => {
     const [password, setPassword] = useState("")
     const [isShowingPassword, setIsShowingPassword] = useState(false)
     const { setUser } = useAuthContext()
+    const navigate = useNavigate()
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         const user = await login(email, password)
-        setUser(user)
+
+        if (user) {
+            setUser(user)
+            navigate("/chat")
+        }
+
+        // clearing the form after login
+        setEmail("")
+        setPassword("")
     }
 
     return (

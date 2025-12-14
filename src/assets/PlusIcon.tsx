@@ -10,8 +10,8 @@ const PlusIcon = () => {
             <path
                 d="M4 12H20M12 4V20"
                 stroke="#333333"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
         </svg>
     )

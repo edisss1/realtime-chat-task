@@ -23,6 +23,8 @@ export async function signUp(name: string, email: string, password: string) {
         console.log("user created", user)
 
         localStorage.setItem("userID", user.id)
+
+        return user
     } catch (error) {
         console.error(error)
     }
