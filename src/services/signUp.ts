@@ -20,8 +20,6 @@ export async function signUp(name: string, email: string, password: string) {
         const newUserDoc = doc(db, "users", user.id)
         await setDoc(newUserDoc, user)
 
-        console.log("user created", user)
-
         localStorage.setItem("userID", user.id)
 
         return user

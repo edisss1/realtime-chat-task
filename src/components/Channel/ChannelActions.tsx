@@ -18,7 +18,7 @@ const ChannelActions = () => {
                 <CreateChannel onClick={openModal} />
             </div>
             <Modal dialogRef={dialogRef}>
-                <CreateChannelModal />
+                <CreateChannelModal dialogRef={dialogRef} />
             </Modal>
         </>
     )

@@ -6,21 +6,35 @@ import ChannelsList from "../components/Channel/ChannelsList"
 import type { TChannel } from "../types/Channel"
 import { Outlet, useParams } from "react-router-dom"
 import ParticipantsList from "../components/Chat/ParticipantsList"
+import { useAuthContext } from "../context/AuthContext"
+import { useEffect, useState } from "react"
+import { getUserBoards } from "../services/getUserChannels"
 
 // Component for displaying chat layout
 
 const Chat = () => {
     const { channelID } = useParams()
+    const { user } = useAuthContext()
 
-    const channels: TChannel[] = [
-        { id: "1", name: "Channel 1", participants: ["user1", "user2"] },
-        { id: "2", name: "Channel 2", participants: ["user1", "user2"] },
-        { id: "3", name: "Channel 3", participants: [] },
-        { id: "4", name: "Channel 4", participants: [] },
-        { id: "5", name: "Channel 5", participants: [] }
-    ]
+    const [channels, setChannels] = useState<TChannel[]>([])
+    const [currentChannel, setCurrentChannel] = useState<TChannel>()
 
-    const currentChannel = channels.find((ch) => ch.id === channelID)
+    useEffect(() => {
+        if (!user?.id) return
+
+        const unsubscribe = getUserBoards(user.id, (channels) => {
+            setChannels(channels)
+        })
+
+        // cleanup
+        return () => {
+            if (unsubscribe) unsubscribe()
+        }
+    }, [user?.id])
+
+    useEffect(() => {
+        setCurrentChannel(channels.find((channel) => channel.id === channelID))
+    }, [channelID])
 
     return (
         <ChatContainer>
@@ -33,7 +47,7 @@ const Chat = () => {
             <Sidebar className="justify-self-end border-l-2">
                 <SidebarHeader text="Channel Participants" />
                 <ParticipantsList
-                    isOwner
+                    isOwner={currentChannel?.creatorID === user?.id}
                     participants={currentChannel?.participants}
                 />
             </Sidebar>
