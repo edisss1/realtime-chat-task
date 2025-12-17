@@ -8,21 +8,28 @@ import { Outlet, useParams } from "react-router-dom"
 import ParticipantsList from "../components/Chat/ParticipantsList"
 import { useAuthContext } from "../context/AuthContext"
 import { useEffect, useState } from "react"
-import { getUserBoards } from "../services/getUserChannels"
+import { getUserChannels } from "../services/getUserChannels"
+import type { TChannelParticipant } from "../types/ChannelParticipant"
+import { getCurrentChannelParticipants } from "../services/getCurrentChannelParticipants"
 
 // Component for displaying chat layout
 
 const Chat = () => {
+    // routing
     const { channelID } = useParams()
+
+    // getting user from context
     const { user } = useAuthContext()
 
+    // state variables
     const [channels, setChannels] = useState<TChannel[]>([])
     const [currentChannel, setCurrentChannel] = useState<TChannel>()
+    const [participants, setParticipants] = useState<TChannelParticipant[]>([])
 
     useEffect(() => {
         if (!user?.id) return
 
-        const unsubscribe = getUserBoards(user.id, (channels) => {
+        const unsubscribe = getUserChannels(user.id, (channels) => {
             setChannels(channels)
         })
 
@@ -34,6 +41,20 @@ const Chat = () => {
 
     useEffect(() => {
         setCurrentChannel(channels.find((channel) => channel.id === channelID))
+    }, [channelID])
+
+    useEffect(() => {
+        const fetchParticipants = async () => {
+            const users = await getCurrentChannelParticipants(channelID)
+
+            if (users) {
+                setParticipants(users)
+            } else {
+                setParticipants([])
+            }
+        }
+
+        fetchParticipants()
     }, [channelID])
 
     return (
@@ -48,7 +69,7 @@ const Chat = () => {
                 <SidebarHeader text="Channel Participants" />
                 <ParticipantsList
                     isOwner={currentChannel?.creatorID === user?.id}
-                    participants={currentChannel?.participants}
+                    participants={participants}
                 />
             </Sidebar>
         </ChatContainer>

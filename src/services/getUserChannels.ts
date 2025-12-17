@@ -2,7 +2,7 @@ import { collection, onSnapshot, query, where } from "firebase/firestore"
 import { db } from "../firebase/config"
 import type { TChannel } from "../types/Channel"
 
-export function getUserBoards(
+export function getUserChannels(
     userID: string | undefined,
     onChange: (channels: TChannel[]) => void
 ) {
