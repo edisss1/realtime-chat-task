@@ -30,30 +30,22 @@ const ChatMain = () => {
 
         console.log("Setting up listener for channel:", channelID)
 
-        // Clear previous messages to avoid showing old channel's messages
+        // clear previous messages to avoid showing messages from a different channel
         setMessages([])
 
-        // Clean up previous listener if it exists
+        // clean up previous listener if it exists
         if (unsubscribeRef.current) {
-            console.log("Cleaning up previous listener")
             unsubscribeRef.current()
             unsubscribeRef.current = null
         }
 
         const unsubscribe = getChannelMessages(channelID, (newMessages) => {
-            console.log(
-                "Received messages for channel:",
-                channelID,
-                newMessages
-            )
-            // Verify messages belong to current channel
             const filteredMessages = newMessages.filter(
                 (msg) => msg.channelID === channelID
             )
             setMessages(filteredMessages)
         })
 
-        // Store unsubscribe function in ref for cleanup
         if (unsubscribe) {
             unsubscribeRef.current = unsubscribe
         }
