@@ -19,7 +19,7 @@ const MessageComposer = () => {
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault()
 
-        await sendMessage(text, channelID, user?.id)
+        await sendMessage(text, channelID, user?.id, user?.displayName || null)
 
         // cleanup
 

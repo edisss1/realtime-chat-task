@@ -4,7 +4,7 @@ import { db } from "../firebase/config"
 export async function createNewChannel(
     channelName: string,
     userID: string | undefined
-) {
+): Promise<string | undefined> {
     if (!userID) return
 
     try {

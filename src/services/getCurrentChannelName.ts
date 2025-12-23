@@ -2,7 +2,9 @@ import { collection, doc, getDoc } from "firebase/firestore"
 import { db } from "../firebase/config"
 
 // function for getting channel name
-export async function getCurrentChannelName(channelID: string | undefined) {
+export async function getCurrentChannelName(
+    channelID: string | undefined
+): Promise<string | undefined> {
     if (!channelID) return
 
     try {

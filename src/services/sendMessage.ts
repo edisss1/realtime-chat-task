@@ -5,9 +5,10 @@ import type { TMessage } from "../types/Message"
 export async function sendMessage(
     text: string,
     channelID: string | undefined,
-    userID: string | undefined
+    userID: string | undefined,
+    userName: string | null
 ) {
-    if (text.trim().length === 0 || !channelID || !userID) return
+    if (text.trim().length === 0 || !channelID || !userID || !userName) return
 
     try {
         const messagesRef = collection(db, "messages")
@@ -16,7 +17,9 @@ export async function sendMessage(
         const newMessage: TMessage = {
             text: text,
             channelID: channelID,
-            senderID: userID
+            senderID: userID,
+            senderName: userName,
+            createdAt: Date.now()
         }
 
         await addDoc(messagesRef, newMessage)

@@ -4,7 +4,7 @@ import type { TChannelParticipant } from "../types/ChannelParticipant"
 
 export async function getCurrentChannelParticipants(
     channelID: string | undefined
-) {
+): Promise<TChannelParticipant[] | undefined> {
     if (!channelID) return
 
     try {

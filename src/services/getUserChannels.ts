@@ -1,11 +1,12 @@
 import { collection, onSnapshot, query, where } from "firebase/firestore"
 import { db } from "../firebase/config"
 import type { TChannel } from "../types/Channel"
+import type { Unsubscribe } from "firebase/auth"
 
 export function getUserChannels(
     userID: string | undefined,
     onChange: (channels: TChannel[]) => void
-) {
+): Unsubscribe | undefined {
     if (!userID) return
     try {
         const channelsRef = collection(db, "channels")
