@@ -3,15 +3,19 @@ import ParticipantCard from "../Users/ParticipantCard"
 
 type ParticipantsListProps = {
     participants: TChannelParticipant[] | undefined
-    isOwner: boolean
+    channelOwnerID: string | undefined
 }
 
-const ParticipantsList = ({ participants, isOwner }: ParticipantsListProps) => {
+const ParticipantsList = ({
+    participants,
+    channelOwnerID
+}: ParticipantsListProps) => {
     return (
         <div className="flex flex-col gap-4 mt-5">
             {participants?.map((participant) => (
                 <ParticipantCard
-                    isOwner={isOwner}
+                    key={participant.id}
+                    isOwner={participant.id === channelOwnerID}
                     userName={participant.displayName}
                 />
             ))}

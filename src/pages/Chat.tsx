@@ -65,13 +65,15 @@ const Chat = () => {
                 <ChannelsList channels={channels} />
             </Sidebar>
             <Outlet />
-            <Sidebar className="justify-self-end border-l-2">
-                <SidebarHeader text="Channel Participants" />
-                <ParticipantsList
-                    isOwner={currentChannel?.creatorID === user?.id}
-                    participants={participants}
-                />
-            </Sidebar>
+            {channelID && (
+                <Sidebar className="justify-self-end border-l-2">
+                    <SidebarHeader text="Channel Participants" />
+                    <ParticipantsList
+                        channelOwnerID={currentChannel?.creatorID}
+                        participants={participants}
+                    />
+                </Sidebar>
+            )}
         </ChatContainer>
     )
 }

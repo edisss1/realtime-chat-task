@@ -11,7 +11,7 @@ const Message = ({ message }: MessageProps) => {
             <div className="flex items-center justify-start gap-2">
                 <div className="rounded-full bg-accent w-10 h-10" />
                 <p>{message.senderName}</p>
-                <p>{convertDate(message.createdAt)}</p>
+                <p className="text-sm">{convertDate(message.createdAt)}</p>
             </div>
             <p>{message.text}</p>
         </div>
